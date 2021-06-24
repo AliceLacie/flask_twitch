@@ -1,5 +1,7 @@
 # flask_twitch
 > Convert Twitch Replay to m3u8
+
+![python Version][python-image]
   
 ## Installation
 ```sh
@@ -17,3 +19,7 @@ Go to `http://127.0.0.1/[streamer name]`
 Click the link to get the m3u8 file.
 
 However, if the twitch replay itself is cleared, the m3u8 file does not go down.
+
+
+<!-- Markdown link & img dfn's -->
+[python-image]: https://img.shields.io/badge/python-v3.9-blue

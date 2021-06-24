@@ -31,7 +31,6 @@ def change_utc(dt):
     return int(utc_now)
 
 def custom_split(sepr_list, str_to_split):
-    # create regular expression dynamically
     regular_exp = '|'.join(map(re.escape, sepr_list))
     return re.split(regular_exp, str_to_split)
 
@@ -39,9 +38,8 @@ def replay(streamername):
     m3u8_list = []
     flag = ''
     cnt = 0
-    # streamername = 'dopa24'
 
-    # print('\n[ + ] Parsing video numbers and time...\n')
+    print('\n[ + ] Parsing video numbers and time...\n')
 
     vodID_html = s.get(f'https://twitchtracker.com/{streamername}/streams', headers=header).text
     soup = BeautifulSoup(vodID_html, 'lxml')
@@ -89,12 +87,9 @@ def replay(streamername):
     return json_result
 
 
-replay('dopa24')
-
 @app.route("/<name>")
 def index(name):
-    str_ = ''
-    result= replay(name)
+    result = replay(name)
     return result
 
 if __name__ == "__main__":

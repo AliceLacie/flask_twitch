@@ -1,8 +1,6 @@
 from flask import Flask, request
 import re
 import requests
-import time
-import streamlink
 
 from datetime import datetime
 from time import mktime
@@ -14,8 +12,6 @@ import json
 app = Flask(__name__)
 
 s = requests.session()
-now = time.localtime()
-thistime = f'{now.tm_year}_{now.tm_mon}_{now.tm_mday}_{now.tm_hour}_{now.tm_min}_{now.tm_sec}'
 
 header = {'User-Agent': 'Mozilla/5.0 (Platform; Security; OS-or-CPU; Localization; rv:1.4) Gecko/20030624 Netscape/7.1 (ax)'}
 vod_split = 'streams/', '">'
@@ -48,7 +44,6 @@ def replay(streamername):
     vod_list= []
     time_list = []
 
-
     for i in pasing:
         j = str(i)
         if f'<a href="/{streamername}/streams/' in j:
@@ -67,7 +62,6 @@ def replay(streamername):
 
             vod_list.append(custom_split(vod_split, j)[1])
             time_list.append(fin_time)
-
 
     for i,j in zip(vod_list, time_list):
         stream_vodID_time = f'{streamername}_{i}_{str(change_utc(j))}'

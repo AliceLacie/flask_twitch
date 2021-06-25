@@ -81,7 +81,7 @@ def replay(streamername):
 
 @app.route("/")
 def index():
-    return 'Hello Funking Twitch User <br> This is Funking Twitch replay donwload API'
+    return 'Hello Fucking Twitch User <br> This is Fucking Twitch replay donwload API'
 
 @app.route("/<name>")
 def download(name):

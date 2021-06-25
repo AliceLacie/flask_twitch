@@ -1,11 +1,10 @@
-from flask import Flask, request
+from flask import Flask
 import re
 import requests
 
 from datetime import datetime
 from time import mktime
 import hashlib
-import re
 from bs4 import BeautifulSoup
 import json
 

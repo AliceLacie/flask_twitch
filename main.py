@@ -79,11 +79,14 @@ def replay(streamername):
 
     return json_result
 
+@app.route("/")
+def index():
+    return 'Hello Funking Twitch User <br> This is Funking Twitch replay donwload API'
 
 @app.route("/<name>")
-def index(name):
+def download(name):
     result = replay(name)
     return result
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5051)
+    app.run(host="0.0.0.0", port=5051)

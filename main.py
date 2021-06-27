@@ -7,6 +7,7 @@ from time import mktime
 import hashlib
 from bs4 import BeautifulSoup
 import json
+from dateutil import tz
 
 app = Flask(__name__)
 
@@ -24,6 +25,18 @@ def change_utc(dt):
     time_tuple = now.timetuple()
     utc_now = mktime(time_tuple)
     return int(utc_now)
+
+def utc_to_kst_time(dt):
+    from_zone = tz.tzutc() 
+    to_zone = tz.tzlocal() 
+    utc = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S') 
+    utc = utc.replace(tzinfo=from_zone) 
+    
+    # 시간대를 변환합니다. 
+    central = utc.astimezone(to_zone)
+    result = str(central).split('+')[0]
+    return result
+
 
 def custom_split(sepr_list, str_to_split):
     regular_exp = '|'.join(map(re.escape, sepr_list))
@@ -46,21 +59,11 @@ def replay(streamername):
     for i in pasing:
         j = str(i)
         if f'<a href="/{streamername}/streams/' in j:
-            stream_day = str(custom_split(time_split, j)[1]).split()
-            retime = int(stream_day[1].split(':')[0])
-            stime = stream_day[1].split(':')[0]
-
-            if retime+9 >= 24: retime = retime+9-24
-            else: retime+=9
-
-            if retime < 10:
-                retime= f'0{retime}' 
-
-            stream_day[1] = stream_day[1].replace(stime, str(retime), 1)
-            fin_time = f'{stream_day[0]} {stream_day[1]}'
-
+            stream_day = str(custom_split(time_split, j)[1])
+            result_day = utc_to_kst_time(stream_day)
+            
             vod_list.append(custom_split(vod_split, j)[1])
-            time_list.append(fin_time)
+            time_list.append(result_day)
 
     for i,j in zip(vod_list, time_list):
         stream_vodID_time = f'{streamername}_{i}_{str(change_utc(j))}'
